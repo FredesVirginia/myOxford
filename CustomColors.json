@@ -1,0 +1,43 @@
+{
+  "login": "#ae8ced",
+  "recover-password": "#7234f9",
+  "change-password": "#FF9600",
+  "primary-match-columns-100": "#E0CCFF",
+  "primary-match-columns-200": "#c299ff",
+  "primary-match-columns-300": "#A366FF",
+  "primary-match-columns-400": "#8533FF",
+  "second-true-false-300": "#F45094",
+  "second-true-false-100": "#F896BF",
+  "my-yellow-400": "#fec64c",
+  "my-yellow-500": "#f6ad10",
+  "my-orange-500": "#f7872f",
+  "my-skyBlue-300": "#66d4ff",
+  "my-skyBlue-500": "#00b7ff",
+  "my-purple-300": "#7B61FF",
+  "my-purple-500": "#6600ff",
+  "my-pink-500": "#F45094",
+  "my-pink-100": "#F896BF",
+  "my-purple-900": "#3B028F",
+  "my-violet-500": "#6600FF",
+  "my-gray-400": "#73787C",
+  "my-brown-100": "#FFF4DB",
+  "my-brown-700": "#98772e",
+  "my-brown-900": "#33280f",
+  "my-semantic-success-700": "#136133" , 
+  "my-blue-200" : "#0092CC" ,
+  "border-drop" : " #004966",
+  "gray-drag" : "#D9DEE2",
+  "my-pick-list" :" #662B00",
+  "my-pick-list-primary" : "#CC5600",
+  "my-green-sortable" : "#50AB30",
+  "my-green-sortable-strong" : "#285618" ,
+  "my-open-rose" :"#F01F45" ,
+
+  
+
+  
+  
+  "my-blue-900": "#014782",
+  "my-blue-500": "#0277d9",
+  "my-semantic-success-700": "#136133"
+}

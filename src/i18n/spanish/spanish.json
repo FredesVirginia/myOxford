@@ -1,0 +1,16 @@
+{
+  "section": "Sección",
+  "home": "Inicio",
+  "resetPassword": "Restablecer contraseña",
+  "changePassword": "Cambiar contraseña",
+  "reqResetPasswordSent": "Ya envío la petición para restablecer la contraseña",
+  "msg1ResetPasswordSent": "Tan pronto como sea posible vamos a estar cerca de nuevo",
+  "msg2ResetPasswordSent": "Su coordinador le enviará su nueva contraseña",
+  "loading": "Cargando...",
+  "congrats": "Felicidades!",
+  "doneActivity": "Has terminado la actividad ",
+  "doingGreat": "Lo has echo muy bien!",
+  "keepRocking": "Sigamos jugando",
+  "grade": "Nota",
+  "youFailExercise": "Fallaste la actividad"
+}

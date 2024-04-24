@@ -1,0 +1,7 @@
+a {
+  @apply  text-sm;
+}
+
+a:hover {
+  /* @apply underline; */
+}

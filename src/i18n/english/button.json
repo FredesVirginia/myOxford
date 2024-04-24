@@ -1,0 +1,11 @@
+{
+  "login": "Login",
+  "register": "Register",
+  "logout": "Logout",
+  "profile": "Profile",
+  "home": "Home",
+  "forgetPassword": "Forget your password?",
+  "requestSendLink": "Request send link",
+  "backToLogin": "Back to login",
+  "returnWorld": "Return to world"
+}

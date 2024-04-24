@@ -1,0 +1,11 @@
+{
+  "login": "Iniciar sesión",
+  "register": "Registrarse",
+  "logout": "Cerrar sesión",
+  "profile": "Perfil",
+  "home": "Inicio",
+  "forgetPassword": "¿Olvidaste tu contraseña?",
+  "requestSendLink": "Solicitar enlace",
+  "backToLogin": "Volver",
+  "returnWorld": "Volver al mundo"
+}

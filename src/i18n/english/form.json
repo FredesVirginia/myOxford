@@ -1,0 +1,12 @@
+{
+  "email": "E-mail Address",
+  "password": "Password",
+  "newPassword": "New password",
+  "confirmPassword": "Confirm new password",
+  "firstName": "First Name",
+  "lastName": "Last Name",
+  "role": "Rol",
+  "admin": "Admin",
+  "user": "User",
+  "rememberMe": "Remember me"
+}

@@ -1,0 +1,16 @@
+{
+  "section": "Section",
+  "home": "Home",
+  "resetPassword": "Reset password",
+  "changePassword": "Change password",
+  "reqResetPasswordSent": "You already send your request",
+  "msg1ResetPasswordSent": "As soon as posible we are going to be close again",
+  "msg2ResetPasswordSent": "Your coordinator will send you your new password",
+  "loading": "Loading...",
+  "congrats": "Contratulations!",
+  "doneActivity": "You have done the activity ",
+  "doingGreat": "You doing GREAT!",
+  "keepRocking": "Keep rocking it",
+  "grade": "Grade",
+  "youFailExercise": "You fail in the next excercise"
+}

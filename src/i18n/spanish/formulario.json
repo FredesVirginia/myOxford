@@ -1,0 +1,12 @@
+{
+  "email": "Correo electrónico",
+  "password": "Contraseña",
+  "newPassword": "Nueva contraseña",
+  "confirmPassword": "Confirmar nueva contraseña",
+  "firstName": "Primer Nombre",
+  "lastName": "Apellido",
+  "role": "Rol",
+  "admin": "Administrador",
+  "user": "Usuario",
+  "rememberMe": "Recuérdame"
+}

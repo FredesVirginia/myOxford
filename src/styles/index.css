@@ -1,0 +1,42 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --primary-color: #3a84fb;
+  --my-yellow-400: "#fec64c";
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #ddd;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #ccc;
+  cursor: pointer;
+}
+
+/* Establecer en la posicion del contenedor de la flecha en relativo.  */
+/* Seleccionamos todos los heramnos superiores directos de .container-match-columns. */
+.container-match-columns ~ div {
+  position: relative !important;
+}
+
+* {
+  font-family: "Roboto", sans-serif;
+  @apply text-gray-700;
+}
+
+.form-error {
+  @apply bg-white py-1 px-2 text-red-500 text-xs font-semibold 
+  w-max mt-1 rounded-lg;
+}
+
+.helper-text {
+  @apply py-1 px-2 text-xs text-my-purple-500 break-words mt-1 rounded-lg;
+}

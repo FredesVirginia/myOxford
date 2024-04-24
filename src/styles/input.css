@@ -1,0 +1,20 @@
+input {
+  @apply border ring-my-yellow-400 stroke-my-yellow-400 outline-none w-full 
+  p-2 rounded-lg text-gray-400;
+}
+
+input::placeholder {
+  @apply text-gray-400;
+}
+
+input:hover {
+  @apply ring-1 border-transparent;
+}
+
+input:focus {
+  @apply ring-2 outline-none border-transparent;
+}
+
+input[type="checkbox"] {
+  @apply ring-0;
+}

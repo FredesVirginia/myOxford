@@ -1,0 +1,20 @@
+button {
+  @apply border-0 outline-none text-white font-medium py-2 px-4
+  cursor-pointer transition-all bg-my-skyBlue-300 rounded-full;
+}
+
+button:hover {
+  @apply !bg-my-yellow-400;
+}
+
+button:active {
+  @apply scale-95;
+}
+
+button:disabled {
+  @apply opacity-60 cursor-not-allowed transition-none;
+}
+
+button:disabled:active {
+  @apply scale-100;
+}
