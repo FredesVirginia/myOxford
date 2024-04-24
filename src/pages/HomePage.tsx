@@ -50,6 +50,9 @@ export const HomePage = () => {
           <ListItemButton onClick={() => navigation("/levels/activities/drag-and-drop/image")}>
             <ListItemText primary="Text or image from top to bottom / left to right" />
           </ListItemButton>
+          <ListItemButton onClick={() => navigation("/levels/activities/drag-and-drop/text")}>
+            <ListItemText primary="Text " />
+          </ListItemButton>
         </CollapseList>
 
         {/* PICK LIST */}

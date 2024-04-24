@@ -5,6 +5,9 @@ import { DndProvider, useDrag, useDrop } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { toast } from "react-hot-toast";
 import { getColor } from "../../../helpers/getColor";
+
+
+
 const ItemTypes = {
   IMAGE: "image",
 };
@@ -59,6 +62,9 @@ const DraggableInput = ({ url, id }: { url: string; id: string }) => {
     />
   );
 };
+
+
+
 
 const DraggableDiv: React.FC<{ imgArray: IRequestGET }> = ({ imgArray }) => {
   return (
