@@ -1,47 +1,37 @@
-import { useEffect, useState } from "react";
-import { ActivityLayout } from "../../../components/layouts/ActivityLayout";
+import React, { useState } from 'react';
+import { DndProvider, useDrag, useDrop } from 'react-dnd';
+import { HTML5Backend} from 'react-dnd-html5-backend';
 
-import { DndProvider, useDrag, useDrop } from "react-dnd";
-import { HTML5Backend } from "react-dnd-html5-backend";
-import { toast } from "react-hot-toast";
-import { getColor } from "../../../helpers/getColor";
-import React from "react";
-
-
-
-const INITIAL_DATA = {
-  questionId: "913",
-  question: " kneirubiure_knionoie_onjoioier_ ",
-  words: [
-    { id: "0", word: "primero" },
-    { id: "1", word: "segundo" },
-    { id: "2", word: "tercero" },
-
-  ]
-}
-
-
-interface DraggableDivProps {
-
-  id: string;
-  word: string
-}
-
-interface IRequestGET {
-
+type Word = {
   id: string;
   word: string;
+};
 
-}
+type DivContainerProps = {
+  words: string[];
+  onDrop: (word: string) => void;
+};
+
+type DroppedItems = {
+  [key: number]: string;
+};
 
 const ItemTypes = 'div';
 
-// Componente de un div arrastrable
-const DraggableDiv: React.FC<IRequestGET> = ({ id, word }) => {
+const INITIAL_DATA = {
+  questionId: "913",
+  question: "kneirubiure_knionoie_onjoioier_",
+  words: [
+    { id: "1", word: "primero" },
+    { id: "2", word: "segundo" },
+    { id: "3", word: "tercero" },
+  ] as Word[]
+};
 
+const DraggableDiv: React.FC<{ word: string; id: string }> = ({ word, id }) => {
   const [{ isDragging }, drag] = useDrag({
     type: ItemTypes,
-    item: { id },
+    item: { id, word },
     collect: (monitor) => ({
       isDragging: !!monitor.isDragging(),
     }),
@@ -51,102 +41,81 @@ const DraggableDiv: React.FC<IRequestGET> = ({ id, word }) => {
     <div
       ref={drag}
       style={{
-       
+        padding: '10px',
+        backgroundColor: 'lightblue',
         opacity: isDragging ? 0.5 : 1,
         cursor: 'move',
+        margin: '5px'
       }}
-      className="text-white bg-orange-300 p-2 px-10"
     >
       {word}
     </div>
   );
 };
 
-
-
-const DivContainer: React.FC<IRequestGET> = ({ id , word}) => {
-  const [droppedItem, setDroppedItem] = useState<string>();
-
-  const [{ canDrop, isOver }, drop] = useDrop({
+const DivContainer: React.FC<DivContainerProps> = ({ words, onDrop }) => {
+  const [{ isOver }, drop] = useDrop({
     accept: ItemTypes,
-    drop: (item: any) => {
-      if (item.id === id) {
-        console.log(`Soltaste el div con ID ${id}`);
-        setDroppedItem(item.id);
-      }
+    drop: (item: { id: string; word: string }, monitor) => {
+      onDrop(item.word);
     },
     collect: (monitor) => ({
-      isOver: monitor.isOver(),
-      canDrop: monitor.canDrop(),
+      isOver: !!monitor.isOver(),
     }),
   });
-
-  const isActive = canDrop && isOver;
 
   return (
     <div
       ref={drop}
       style={{
         width: '300px',
-        height: '200px',
         border: '2px dashed black',
         padding: '20px',
         position: 'relative',
+        margin: '10px',
+        backgroundColor: isOver ? 'lightgreen' : 'transparent',
       }}
     >
-      {isActive ? 'Suelta aquí' : 'Arrastra aquí'}
-      {droppedItem === id && <DraggableDiv word={word} id={id} />} {/* Renderizamos el div arrastrable si se soltó en este contenedor */}
+      {words.map((word, index) => (
+        <p key={index}>{word}</p>
+      ))}
     </div>
   );
 };
 
+const DrangAWord: React.FC = () => {
+  const [droppedItems, setDroppedItems] = useState<DroppedItems>({});
 
-const DrangAWord = () => {
-
-  const [requestGET, setRequestGet] = useState<typeof INITIAL_DATA>(INITIAL_DATA)
-
-  let questionParts = requestGET.question.split("_");
-
-
-
-
+  const handleDrop = (word: string, containerId: number) => {
+    setDroppedItems(prevState => ({
+      ...prevState,
+      [containerId]: word
+    }));
+  }
 
   return (
     <DndProvider backend={HTML5Backend}>
-
-
-     <center className="flex justify-center mt-10">
-     <center>
-        <div className="flex space-x-5">
-          {requestGET.words.map((index, elemt) => (
-
-            <DraggableDiv key={index.id} id={index.toString()} word={index.word} >
-
-            </DraggableDiv>
-
-          ))}
-        </div>
-      </center>
-
-     
-     </center>
-
-     <div className="flex justify-center mt-20 space-x-5">
-      {questionParts.map((part, index) => (
+      <h1>hola</h1>
+      <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+        {INITIAL_DATA.words.map((wordObj) => (
+          <DraggableDiv key={wordObj.id} word={wordObj.word} id={wordObj.id} />
+        ))}
+      </div>
+      <div style={{ display: 'flex', flexWrap: 'wrap', marginTop: '20px' }}>
+        {INITIAL_DATA.question.split('_').map((segment, index) => (
           <React.Fragment key={index}>
-            {/* Renderizar el texto de la parte */}
-            <p className="mr-2">{part}</p>
-            {/* Renderizar un div para el separador "_" */}
-            {index !== questionParts.length - 1 && (
-               <DivContainer id={index.toString()} word={part} />
+            <p>{segment}</p>
+            {index !== INITIAL_DATA.question.split('_').length - 1 && (
+              <DivContainer
+                words={droppedItems[index] ? [droppedItems[index]] : []}
+                onDrop={(word) => handleDrop(word, index)}
+              />
             )}
           </React.Fragment>
         ))}
       </div>
     </DndProvider>
-  )
-
-}
-
+  );
+};
 
 export default DrangAWord;
