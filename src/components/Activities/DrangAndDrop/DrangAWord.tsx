@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { DndProvider, useDrag, useDrop } from 'react-dnd';
 import { HTML5Backend} from 'react-dnd-html5-backend';
 
@@ -11,6 +11,7 @@ type DivContainerProps = {
   words: string[];
   onDrop: (word: string) => void;
 };
+
 
 type DroppedItems = {
   [key: number]: string;
@@ -54,10 +55,18 @@ const DraggableDiv: React.FC<{ word: string; id: string }> = ({ word, id }) => {
 };
 
 const DivContainer: React.FC<DivContainerProps> = ({ words, onDrop }) => {
+
+  const [droppedItems, setDroppedItems] = useState<number[]>([]);
+  const [hasDropped, setHasDropped] = useState<boolean>(false);
+
   const [{ isOver }, drop] = useDrop({
     accept: ItemTypes,
     drop: (item: { id: string; word: string }, monitor) => {
-      onDrop(item.word);
+      if(!hasDropped){
+        onDrop(item.id);
+        setDroppedItems((prevItems) => [...prevItems, parseInt(item.id)]);
+        setHasDropped(true);
+      }
     },
     collect: (monitor) => ({
       isOver: !!monitor.isOver(),
@@ -76,30 +85,54 @@ const DivContainer: React.FC<DivContainerProps> = ({ words, onDrop }) => {
         backgroundColor: isOver ? 'lightgreen' : 'transparent',
       }}
     >
-      {words.map((word, index) => (
-        <p key={index}>{word}</p>
-      ))}
+     
+
+     {droppedItems.map((itemId, index) => {
+  const wordObj = INITIAL_DATA.words.find(word => word.id == itemId.toString());
+  if (wordObj) {
+    return (
+      <div className="flex justify-center items-center" key={index}>
+        <DraggableDiv key={index} word={wordObj.word} id={itemId.toString()} />
+      </div>
+    );
+  } else {
+    return null; // O puedes manejar este caso de alguna otra manera
+  }
+})}
     </div>
   );
 };
 
 const DrangAWord: React.FC = () => {
-  const [droppedItems, setDroppedItems] = useState<DroppedItems>({});
+  // Estado para almacenar los elementos soltados junto con su contenedor
+  const [droppedItems, setDroppedItems] = useState<{ idWord: string; indContainer: number }[]>([]);
 
-  const handleDrop = (word: string, containerId: number) => {
-    setDroppedItems(prevState => ({
+  const handleDrop = (wordId: string, containerId: number) => {
+    // Actualiza el estado para agregar el elemento soltado junto con su contenedor
+    setDroppedItems(prevState => [
       ...prevState,
-      [containerId]: word
-    }));
-  }
+      { idWord: wordId, indContainer: containerId }
+    ]);
+  };
+
+
+  const getAvailableDraggableDivs = () => {
+    const droppedDivs = droppedItems.map((item) => item.idWord.toString());
+    return INITIAL_DATA.words.filter((img) => !droppedDivs.includes(img.id));
+  };
+
+
+  console.log("EL ARRAY ES ", droppedItems);
 
   return (
     <DndProvider backend={HTML5Backend}>
       <h1>hola</h1>
       <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-        {INITIAL_DATA.words.map((wordObj) => (
-          <DraggableDiv key={wordObj.id} word={wordObj.word} id={wordObj.id} />
-        ))}
+       
+
+{getAvailableDraggableDivs().map((wordObj) => (
+                 <DraggableDiv key={wordObj.id} word={wordObj.word} id={wordObj.id} />
+              ))}
       </div>
       <div style={{ display: 'flex', flexWrap: 'wrap', marginTop: '20px' }}>
         {INITIAL_DATA.question.split('_').map((segment, index) => (
@@ -107,8 +140,8 @@ const DrangAWord: React.FC = () => {
             <p>{segment}</p>
             {index !== INITIAL_DATA.question.split('_').length - 1 && (
               <DivContainer
-                words={droppedItems[index] ? [droppedItems[index]] : []}
-                onDrop={(word) => handleDrop(word, index)}
+                words={droppedItems.filter(item => item.indContainer === index).map(item => item.idWord)}
+                onDrop={(wordId) => handleDrop(wordId, index)} 
               />
             )}
           </React.Fragment>
