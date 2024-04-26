@@ -26,7 +26,7 @@ const ItemTypes = 'div';
 
 const INITIAL_DATA = {
     questionId: "913",
-    question: "kneirubiureon knoin_knio koi oinoi noie_onjoioi kno er_",
+    question: "kneirubiureon knoin _ . knio koi oinoi noie_ . onjoioi kno er_",
     words: [
         { id: "1", word: "primero" },
         { id: "2", word: "segundo" },
@@ -163,19 +163,25 @@ const DrangAWordPage = () => {
         return INITIAL_DATA.words.filter((img) => !droppedDivs.includes(img.id));
     };
 
+    const handleNext = () => {
+        toast.success(" Muy Bien .A por el siguiente")
+    }
+
 
     console.log("EL ARRAY ES ", droppedItems);
+
+    const parrafos = INITIAL_DATA.question.split(' . ');
     return (
         <ActivityLayout
             saveProps={{
-                // className: `font-semibold py-4 w-[220px] text-center ${!allItemsDropped ? "bg-pink-300" : "bg-my-pink-500"}`,
-                //onClick: handleSave,
-                //disabled: !allItemsDropped,
+                className: `font-semibold py-4 w-[220px] text-center `,
+                onClick: handleSave,
+
             }}
             nextProps={{
-                // className: `font-semibold py-4 w-[220px] text-center ${nextDisabled ? "bg-pink-300" : "bg-my-pink-500"}`,
-                // disabled: nextDisabled,
-                //onClick: handleNext,
+                className: `font-semibold py-4 w-[220px] text-center ${nextDisabled ? "bg-pink-300" : "bg-my-pink-500"}`,
+                disabled: nextDisabled,
+                onClick: handleNext,
             }}
             theme="drang-and-drop"
             acitivityHeader={{
@@ -192,20 +198,25 @@ const DrangAWordPage = () => {
             <DndProvider backend={HTML5Backend}>
 
 
-                <div style={{ display: 'flex', flexWrap: 'wrap', marginTop: '20px' }} className="flex justify-center border border-gray rounded-xl" >
-                    {INITIAL_DATA.question.split('_').map((segment, index) => (
-                        <div className="flex items-center" key={index}>
-                            <p className=" text-black text-2xl">{segment}</p>
-                            {index !== INITIAL_DATA.question.split('_').length - 1 && (
-                                <DivContainer
-                                    words={droppedItems.filter(item => item.indContainer === index).map(item => item.idWord)}
-                                    onDrop={(wordId) => handleDrop(wordId, index)}
-                                />
-                            )}
-                        </div>
-                    ))}
-                </div>
-                <center>
+               
+                    <div style={{ display: 'flex', flexWrap: 'wrap', marginTop: '20px' }} className="mx-40 flex justify-left border border-gray-600 rounded-xl">
+                        {INITIAL_DATA.question.split('_').map((segment, index) => (
+                            <div className="flex items-start flex-col p-2" key={index}>
+                                <div className="flex items-center">
+                                    <p className="text-black text-2xl">{segment}</p>
+                                    {index !== INITIAL_DATA.question.split('_').length - 1 && (
+                                        <DivContainer
+                                            words={droppedItems.filter(item => item.indContainer === index).map(item => item.idWord)}
+                                            onDrop={(wordId) => handleDrop(wordId, index)}
+                                        />
+                                    )}
+                                </div>
+                                
+                            </div>
+                        ))}
+                    </div>
+             
+                <center className="flex justify-center mt-10">
                     <div style={{ display: 'flex', flexWrap: 'wrap' }}>
 
 
