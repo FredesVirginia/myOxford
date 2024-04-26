@@ -28,15 +28,19 @@ const INITIAL_DATA = {
     questionId: "913",
    
     arrayQuestion: [
-        { p: " 1ededre _  ijni" },
-        { p: " 2ededre _  nini " },
+        { p: " 1ededre _  ijni _" },
+        { p: " 2ededre _  nini kjkjbk  _ jbkjb _ " },
         { p: " _ 3sewde" },
+        
 
     ],
     words: [
         { id: "1", word: "primero" },
         { id: "2", word: "segundo" },
         { id: "3", word: "tercero" },
+        { id: "4", word: "cuarto" },
+        { id: "5", word: "quinto" },
+        { id: "6", word: "sexto" },
 
     ] as Word[]
 };
@@ -131,7 +135,7 @@ const DivContainer: React.FC<DivContainerProps> = ({ words, onDrop }) => {
 
 
 
-const DrangAWordPage = () => {
+const DrangManyWordsPage = () => {
     // Estado para almacenar los elementos soltados junto con su contenedor
     const [droppedItems, setDroppedItems] = useState<{ idWord: string; indContainer: number }[]>([]);
 
@@ -176,7 +180,7 @@ const DrangAWordPage = () => {
 
 
     console.log("El requestPOST ES " , requestPOST);
-
+   
     return (
         <ActivityLayout
             saveProps={{
@@ -205,8 +209,8 @@ const DrangAWordPage = () => {
 
 
                 <div className="border border-gray-800 rounded-xl p-4">
-                {INITIAL_DATA.arrayQuestion.map((item, index2) => (
-                    <div key={index2} className=" ">
+                {INITIAL_DATA.arrayQuestion.map((item, index) => (
+                    <div key={index} className=" ">
                         {item.p.split('_').map((text, index) => (
                             <React.Fragment key={index} >
                                 <div style={{ display: 'inline-block', marginTop: "18px" }} className=" text-2xl" >
@@ -215,8 +219,8 @@ const DrangAWordPage = () => {
                                 {index !== item.p.split('_').length - 1 && (
                                     <div style={{ display: 'inline-block', verticalAlign: 'top' }}>
                                         <DivContainer
-                                            words={droppedItems.filter(item => item.indContainer === index2).map(item => item.idWord)}
-                                            onDrop={(wordId) => handleDrop(wordId, index2)}
+                                            words={droppedItems.filter(item => item.indContainer === index).map(item => item.idWord)}
+                                            onDrop={(wordId) => handleDrop(wordId, index)}
                                         />
                                     </div>
                                 )}
@@ -241,4 +245,4 @@ const DrangAWordPage = () => {
 
 }
 
-export default DrangAWordPage;
+export default DrangManyWordsPage;

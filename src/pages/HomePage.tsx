@@ -50,8 +50,12 @@ export const HomePage = () => {
           <ListItemButton onClick={() => navigation("/levels/activities/drag-and-drop/image")}>
             <ListItemText primary="Text or image from top to bottom / left to right" />
           </ListItemButton>
-          <ListItemButton onClick={() => navigation("/levels/activities/drag-and-drop/text")}>
-            <ListItemText primary="Text " />
+          <ListItemButton onClick={() => navigation("/levels/activities/drag-and-drop/a-word")}>
+            <ListItemText primary=" Drang a Word " />
+          </ListItemButton>
+
+          <ListItemButton onClick={() => navigation("/levels/activities/drag-and-drop/many-words")}>
+            <ListItemText primary=" Drang many Word " />
           </ListItemButton>
         </CollapseList>
 
@@ -103,6 +107,12 @@ export const HomePage = () => {
         <CollapseList open={openSortable} setOpen={setOpenSortable} title="Sortable">
           <ListItemButton onClick={() => navigation("/levels/activities/sortable/image")}>
             <ListItemText primary="Order images" />
+          </ListItemButton>
+          <ListItemButton onClick={() => navigation("/levels/activities/sortable/word")}>
+            <ListItemText primary="Order words" />
+          </ListItemButton>
+          <ListItemButton onClick={() => navigation("/levels/activities/sortable/text")}>
+            <ListItemText primary="Order text" />
           </ListItemButton>
         </CollapseList>
       </div>
