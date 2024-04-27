@@ -1,5 +1,7 @@
 import { SetStateAction, useState } from "react";
 import { getColor } from "../../../helpers/getColor";
+import { ActivityLayout } from "../../../components/layouts/ActivityLayout";
+import toast from "react-hot-toast";
 
 
 
@@ -17,8 +19,13 @@ const INITIAL_DATA = {
 
 
 const MultipleChoiseImageVisualPage = () => {
-    const [selectedOption, setSelectedOption] = useState<string | null>(null);
-    
+    const [selectedOption, setSelectedOption] = useState<string>("0");
+    const [nextDisabled, setNextDisabled] = useState(true);
+    const [requestPOST , setRequestPOST] = useState<{
+        questionId : string,
+        response : string
+    }>();
+
     const handleOptionChange = (optionId: string , opcion : string) => {
         setSelectedOption(optionId);
         console.log("La opcion selecionada es " ,opcion )
@@ -28,8 +35,44 @@ const MultipleChoiseImageVisualPage = () => {
         return String.fromCharCode(97 + index) + ') ';
       };
 
+    const handleSave = () =>{
+        setNextDisabled(false);
+        setRequestPOST(
+            {
+                questionId : INITIAL_DATA.questionId,
+                response : selectedOption
+            }
+        )
+    }
+
+    const handleNext = () => {
+        toast.success("Muy Bien");
+      };
+
+    console.log("LA REQUEST POST ES " , requestPOST);
+
 
     return (
+        <ActivityLayout
+        saveProps={{
+            className: `font-semibold py-4 w-[220px] text-center "}`,
+            onClick: handleSave,
+            
+          }}
+          nextProps={{
+            className: `font-semibold py-4 w-[220px] text-center ${nextDisabled ? "bg-pink-300" : "bg-my-pink-500"}`,
+            disabled: nextDisabled,
+            onClick: handleNext,
+          }}
+        theme="multiple-choice"
+        acitivityHeader={{
+          acitivity: "Multiple Choice",
+          quest: "GRAMAR A1 LEVEL 2",
+          description: "PART1: COMMON AND PROPER NOUNS",
+          instruction: "Select the best option matching with the sentence",
+        }}
+        primaryColor={getColor("my-blue-500")}
+      >
         <div>
             <h1 className="text-center text-2xl">Hola Multiple Chois Imag Visual</h1>
 
@@ -60,6 +103,9 @@ const MultipleChoiseImageVisualPage = () => {
             </div>
            </center>
         </div>
+
+
+      </ActivityLayout>
     )
 
 }

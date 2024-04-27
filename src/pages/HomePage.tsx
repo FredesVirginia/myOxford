@@ -98,6 +98,10 @@ export const HomePage = () => {
           <ListItemButton onClick={() => navigation("/levels/activities/multiple-choice/imagen-text")}>
             <ListItemText primary="Imagen and Txt" />
           </ListItemButton>
+
+          <ListItemButton onClick={() => navigation("/levels/activities/multiple-choice/only-imagen")}>
+            <ListItemText primary="Only Imagen" />
+          </ListItemButton>
         </CollapseList>
 
         {/* OPEN */}
