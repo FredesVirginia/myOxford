@@ -109,6 +109,10 @@ export const HomePage = () => {
           <ListItemButton onClick={() => navigation("/levels/activities/open/text")}>
             <ListItemText primary="Text withou image" />
           </ListItemButton>
+
+          <ListItemButton onClick={() => navigation("/levels/activities/open/imagen")}>
+            <ListItemText primary="Text with image" />
+          </ListItemButton>
         </CollapseList>
 
         {/* SORTABLE */}
