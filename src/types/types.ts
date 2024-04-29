@@ -12,7 +12,7 @@ export type TBackgroundLayout =
   | "pick-list"
   |  "sortable"
   | "open"
-  
+  | "speaking"
   | "multiple-choice"
   | "fill-the-blanks";
 

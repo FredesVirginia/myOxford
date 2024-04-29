@@ -9,6 +9,7 @@ import BG_OPEN from "../../assets/backgrounds/bg-open.png";
 import BG_PICK_LIST from "../../assets/backgrounds/bg-pick-list.svg";
 import BG_SORTABLE from "../../assets/backgrounds/bg-sotable.png";
 import BG_TRUE_FALSE from "../../assets/backgrounds/bg-trueFalse.svg";
+import BG_SPEAKING from "../../assets/backgrounds/bg-speaking.png";
 import BG_UNSCRAMBLE from "../../assets/backgrounds/bg-unscramble.svg";
 import { TBackgroundLayout } from "../../types/types";
 
@@ -47,6 +48,9 @@ export const BackgroundLayout: React.FC<Props> = ({ theme = "login", mask, child
         return "bg-my-open-rose"
       case "multiple-choice":
         return "bg-my-blue-900";
+      
+      case "speaking" : 
+        return "bg-my-speaking-primary";
     }
   };
 
@@ -80,7 +84,9 @@ export const BackgroundLayout: React.FC<Props> = ({ theme = "login", mask, child
 
       case "open" :
          return BG_OPEN;
-         
+       
+      case "speaking" :
+          return BG_SPEAKING
     }
   };
 

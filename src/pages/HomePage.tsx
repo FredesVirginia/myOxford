@@ -14,6 +14,7 @@ export const HomePage = () => {
   const [openTrueOrFalse, setOpenTrueOrFalse] = useState(false);
   const [openOpen, setOpenOpen] = useState(false);
   const [openSortable, setOpenSortable] = useState(false);
+  const [openSpeaking , setOpenSpeaking] = useState(false);
 
   const navigation = useNavigate();
 
@@ -125,6 +126,13 @@ export const HomePage = () => {
           </ListItemButton>
           <ListItemButton onClick={() => navigation("/levels/activities/sortable/text")}>
             <ListItemText primary="Order text" />
+          </ListItemButton>
+        </CollapseList>
+
+        { /** Speaking */}
+        <CollapseList open={openSpeaking} setOpen={setOpenSpeaking} title="Speaking">
+          <ListItemButton onClick={() => navigation("/levels/activities/speaking/by-text")}>
+            <ListItemText primary="Speaking" />
           </ListItemButton>
         </CollapseList>
       </div>

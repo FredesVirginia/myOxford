@@ -40,5 +40,7 @@
   
   "my-blue-900": "#014782",
   "my-blue-500": "#0277d9",
-  "my-semantic-success-700": "#136133"
+  "my-semantic-success-700": "#136133" , 
+  "my-speaking-primary" : "#000000" , 
+  "my-speaking" : "#98772E"
 }

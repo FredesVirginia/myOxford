@@ -11,7 +11,10 @@ import {
   Sortable,
   TrueOrFalse,
   Unscramble,
+  
 } from "./activities";
+
+import { Speaking } from "./activities/Speaking";
 
 export const ActivityRouter = () => {
   return (
@@ -26,6 +29,7 @@ export const ActivityRouter = () => {
         <Route path="/picklist/*" element={<Picklist />} />
         <Route path="/sortable/*" element={<Sortable />} />
         <Route path="/drag-and-drop/*" element={<DragAndDrop />} />
+        <Route path="/speaking/*" element={<Speaking />} />
       </Route>
       <Route path="*" element={<NotFoundPage />} />
     </Routes>
