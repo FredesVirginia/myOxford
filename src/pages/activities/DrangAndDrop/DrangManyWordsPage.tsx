@@ -26,12 +26,12 @@ const ItemTypes = 'div';
 
 const INITIAL_DATA = {
     questionId: "913",
-   
+
     arrayQuestion: [
-        { p: " 1ededre _  ijni _" },
+        { p: " 1ededre _ ijni _" },
         { p: " 2ededre _  nini kjkjbk  _ jbkjb _ " },
-        { p: " _ 3sewde" },
-        
+   
+
 
     ],
     words: [
@@ -40,7 +40,6 @@ const INITIAL_DATA = {
         { id: "3", word: "tercero" },
         { id: "4", word: "cuarto" },
         { id: "5", word: "quinto" },
-        { id: "6", word: "sexto" },
 
     ] as Word[]
 };
@@ -158,13 +157,22 @@ const DrangManyWordsPage = () => {
             response: droppedItems,
         });
     };
-
+    const [contador, setContador] = useState(0);
     const handleDrop = (wordId: string, containerId: number) => {
         // Actualiza el estado para agregar el elemento soltado junto con su contenedor
+
+        console.log('El contador es:', contador);
+
+        // Aquí puedes realizar otras operaciones con el contador si lo necesitas
+
+        // Incrementar el contador
+        setContador(contador + 1);
         setDroppedItems(prevState => [
             ...prevState,
-            { idWord: wordId, indContainer: containerId }
+            { idWord: wordId, indContainer: containerId}
         ]);
+
+
     };
 
     //FUNCION PARA NOS VOLVER A MOSTRAR ELEMENTOS QUE YA SE SOLTARON
@@ -179,8 +187,14 @@ const DrangManyWordsPage = () => {
     }
 
 
-    console.log("El requestPOST ES " , requestPOST);
+    console.log("El requestPOST ES ", requestPOST);
+
+
    
+
+    // Función para manejar el evento onDrop
+  
+
     return (
         <ActivityLayout
             saveProps={{
@@ -209,25 +223,25 @@ const DrangManyWordsPage = () => {
 
 
                 <div className="border border-gray-800 rounded-xl p-4">
-                {INITIAL_DATA.arrayQuestion.map((item, index) => (
-                    <div key={index} className=" ">
-                        {item.p.split('_').map((text, index) => (
-                            <React.Fragment key={index} >
-                                <div style={{ display: 'inline-block', marginTop: "18px" }} className=" text-2xl" >
-                                    {text}
-                                </div>
-                                {index !== item.p.split('_').length - 1 && (
-                                    <div style={{ display: 'inline-block', verticalAlign: 'top' }}>
-                                        <DivContainer
-                                            words={droppedItems.filter(item => item.indContainer === index).map(item => item.idWord)}
-                                            onDrop={(wordId) => handleDrop(wordId, index)}
-                                        />
+                    {INITIAL_DATA.arrayQuestion.map((item, containerIndex) => (
+                        <div key={containerIndex}>
+                            {item.p.split('_').map((text, textIndex) => (
+                                <React.Fragment key={textIndex}>
+                                    <div style={{ display: 'inline-block', marginTop: "18px" }} className="text-2xl">
+                                        {text}
                                     </div>
-                                )}
-                            </React.Fragment>
-                        ))}
-                    </div>
-                ))}
+                                    {textIndex !== item.p.split('_').length - 1 && (
+                                        <div style={{ display: 'inline-block', verticalAlign: 'top' }}>
+                                            <DivContainer
+                                                words={droppedItems.filter(item => item.indContainer === textIndex ).map(item => item.idWord)}
+                                                onDrop={(wordId) => handleDrop(wordId, textIndex )}
+                                            />
+                                        </div>
+                                    )}
+                                </React.Fragment>
+                            ))}
+                        </div>
+                    ))}
                 </div>
                 <center className="flex justify-center mt-10">
                     <div style={{ display: 'flex', flexWrap: 'wrap' }}>
