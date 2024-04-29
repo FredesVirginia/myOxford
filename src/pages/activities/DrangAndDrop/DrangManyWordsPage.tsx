@@ -36,8 +36,8 @@ const INITIAL_DATA = {
     ],
 
     array2 : [
-        { id : "0" , "text" :" 1ededre _ ijni _" } ,
-        { id : "1" , "text" : " 2ededre _  nini kjkjbk  _ jbkjb _ " } ,
+        { id : 0 , "text" :" 1ededre _ ijni _" } ,
+        { id : 1 , "text" : " 2ededre _  nini kjkjbk  _ jbkjb _ " } ,
 
     ] ,
     words: [
@@ -142,7 +142,7 @@ const DivContainer: React.FC<DivContainerProps> = ({ words, onDrop }) => {
 
 const DrangManyWordsPage = () => {
     // Estado para almacenar los elementos soltados junto con su contenedor
-    const [droppedItems, setDroppedItems] = useState<{ idWord: string; indContainer: number , idText: string }[]>([]);
+    const [droppedItems, setDroppedItems] = useState<{ idWord: string; indContainer: number , idText: number }[]>([]);
 
     //ESTADO PARA MANEJAR EL BOTON DE NEXT HABILITADO / DESABILITADO
     const [nextDisabled, setNextDisabled] = useState(true);
@@ -158,21 +158,18 @@ const DrangManyWordsPage = () => {
 
     const handleSave = () => {
         setNextDisabled(false);
-        setRequestPOST({
-            questionId: INITIAL_DATA.questionId,
-            response: droppedItems,
-        });
+        
     };
-    const [contador, setContador] = useState(0);
-    const handleDrop = (wordId: string, containerId: number , idText : string) => {
+    
+    const handleDrop = (wordId: string, containerId: number , idText : number) => {
         // Actualiza el estado para agregar el elemento soltado junto con su contenedor
 
-        console.log('El contador es:', contador);
+       
 
         // Aquí puedes realizar otras operaciones con el contador si lo necesitas
 
         // Incrementar el contador
-        setContador(contador + 1);
+        
         setDroppedItems(prevState => [
             ...prevState,
             { idWord: wordId, indContainer: containerId , idText : idText}
@@ -189,11 +186,31 @@ const DrangManyWordsPage = () => {
     };
 
     const handleNext = () => {
+
+       const groupedByidText = requestPOST.response.reduce((acc: Record<string, any[]>, curr: any) => {
+            // Verificamos si ya existe una entrada con el idText actual
+            if (acc[curr.idText]) {
+                // Si existe, agregamos el objeto actual al array correspondiente
+                acc[curr.idText].push(curr);
+            } else {
+                // Si no existe, creamos un nuevo array con el objeto actual
+                acc[curr.idText] = [curr];
+            }
+            return acc;
+        }, {});
+
+        setRequestPOST({
+            questionId: INITIAL_DATA.questionId,
+            response: groupedByidText,
+        });
+
+        console.log("LOS GRUPOS 3 SON " , groupedByidText)
         toast.success(" Muy Bien .A por el siguiente")
     }
 
 
     console.log("El requestPOST ES ", requestPOST);
+   
 
 
    
