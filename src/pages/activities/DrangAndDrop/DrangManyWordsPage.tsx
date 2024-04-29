@@ -34,6 +34,12 @@ const INITIAL_DATA = {
 
 
     ],
+
+    array2 : [
+        { id : "0" , "text" :" 1ededre _ ijni _" } ,
+        { id : "1" , "text" : " 2ededre _  nini kjkjbk  _ jbkjb _ " } ,
+
+    ] ,
     words: [
         { id: "1", word: "primero" },
         { id: "2", word: "segundo" },
@@ -136,7 +142,7 @@ const DivContainer: React.FC<DivContainerProps> = ({ words, onDrop }) => {
 
 const DrangManyWordsPage = () => {
     // Estado para almacenar los elementos soltados junto con su contenedor
-    const [droppedItems, setDroppedItems] = useState<{ idWord: string; indContainer: number }[]>([]);
+    const [droppedItems, setDroppedItems] = useState<{ idWord: string; indContainer: number , idText: string }[]>([]);
 
     //ESTADO PARA MANEJAR EL BOTON DE NEXT HABILITADO / DESABILITADO
     const [nextDisabled, setNextDisabled] = useState(true);
@@ -158,7 +164,7 @@ const DrangManyWordsPage = () => {
         });
     };
     const [contador, setContador] = useState(0);
-    const handleDrop = (wordId: string, containerId: number) => {
+    const handleDrop = (wordId: string, containerId: number , idText : string) => {
         // Actualiza el estado para agregar el elemento soltado junto con su contenedor
 
         console.log('El contador es:', contador);
@@ -169,7 +175,7 @@ const DrangManyWordsPage = () => {
         setContador(contador + 1);
         setDroppedItems(prevState => [
             ...prevState,
-            { idWord: wordId, indContainer: containerId}
+            { idWord: wordId, indContainer: containerId , idText : idText}
         ]);
 
 
@@ -223,18 +229,18 @@ const DrangManyWordsPage = () => {
 
 
                 <div className="border border-gray-800 rounded-xl p-4">
-                    {INITIAL_DATA.arrayQuestion.map((item, containerIndex) => (
+                    {INITIAL_DATA.array2.map((item, containerIndex) => (
                         <div key={containerIndex}>
-                            {item.p.split('_').map((text, textIndex) => (
+                            {item.text.split('_').map((text, textIndex) => (
                                 <React.Fragment key={textIndex}>
                                     <div style={{ display: 'inline-block', marginTop: "18px" }} className="text-2xl">
                                         {text}
                                     </div>
-                                    {textIndex !== item.p.split('_').length - 1 && (
+                                    {textIndex !== item.text.split('_').length - 1 && (
                                         <div style={{ display: 'inline-block', verticalAlign: 'top' }}>
                                             <DivContainer
                                                 words={droppedItems.filter(item => item.indContainer === textIndex ).map(item => item.idWord)}
-                                                onDrop={(wordId) => handleDrop(wordId, textIndex )}
+                                                onDrop={(wordId) => handleDrop(wordId, textIndex  , item.id)}
                                             />
                                         </div>
                                     )}
