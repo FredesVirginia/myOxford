@@ -3,9 +3,7 @@ button {
   cursor-pointer transition-all bg-my-skyBlue-300 rounded-full;
 }
 
-button:hover {
-  @apply !bg-my-yellow-400;
-}
+
 
 button:active {
   @apply scale-95;
