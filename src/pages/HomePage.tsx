@@ -130,9 +130,13 @@ export const HomePage = () => {
         </CollapseList>
 
         { /** Speaking */}
-        <CollapseList open={openSpeaking} setOpen={setOpenSpeaking} title="Speaking">
+        <CollapseList open={openSpeaking} setOpen={setOpenSpeaking} title="Speaking ">
           <ListItemButton onClick={() => navigation("/levels/activities/speaking/by-text")}>
-            <ListItemText primary="Speaking" />
+            <ListItemText primary="Speaking Text" />
+          </ListItemButton>
+
+          <ListItemButton onClick={() => navigation("/levels/activities/speaking/img")}>
+            <ListItemText primary="Speaking Img" />
           </ListItemButton>
         </CollapseList>
       </div>
