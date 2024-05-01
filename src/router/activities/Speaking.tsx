@@ -6,8 +6,16 @@ import { NotFoundPage } from "../../pages/views/NotFoundPage";
 export const Speaking = () => {
   return (
     <Routes>
-      <Route path="/by-text" element={<SpeakingTextPage />} />
-      <Route path="/img" element={<SpeakingImagePage />} />
+      <Route path="/by-text" element={<SpeakingTextPage onRecord={function (audio: Blob): void {
+        throw new Error("Function not implemented.");
+      } } onStop={function (): void {
+        throw new Error("Function not implemented.");
+      } } />} />
+      <Route path="/img" element={<SpeakingImagePage onRecord={function (audio: Blob): void {
+        throw new Error("Function not implemented.");
+      } } onStop={function (): void {
+        throw new Error("Function not implemented.");
+      } } />} />
       <Route path="*" element={<NotFoundPage />} />
     </Routes>
   );

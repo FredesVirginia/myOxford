@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { RefObject, useEffect, useRef, useState } from "react";
 import { ActivityLayout } from "../../../components/layouts/ActivityLayout";
 
 import { DndProvider, useDrag, useDrop } from "react-dnd";
@@ -12,15 +12,20 @@ type Word = {
     word: string;
 };
 
+interface ResponseObject {
+    idWord: string;
+    indContainer: number;
+    text?: string;
+}
+
 type DivContainerProps = {
     words: string[];
     onDrop: (word: string) => void;
+
 };
 
 
-type DroppedItems = {
-    [key: number]: string;
-};
+
 
 const ItemTypes = 'div';
 
@@ -30,16 +35,16 @@ const INITIAL_DATA = {
     arrayQuestion: [
         { p: " 1ededre _ ijni _" },
         { p: " 2ededre _  nini kjkjbk  _ jbkjb _ " },
-   
+
 
 
     ],
 
-    array2 : [
-        { id : 0 , "text" :" 1ededre _ ijni _" } ,
-        { id : 1 , "text" : " 2ededre _  nini kjkjbk  _ jbkjb _ " } ,
+    array2: [
+        { id: 0, "text": " 1ededre _ ijni _" },
+        { id: 1, "text": " 2ededre _  nini kjkjbk  _ jbkjb _ " },
 
-    ] ,
+    ],
     words: [
         { id: "1", word: "primero" },
         { id: "2", word: "segundo" },
@@ -118,7 +123,7 @@ const DivContainer: React.FC<DivContainerProps> = ({ words, onDrop }) => {
         >
 
 
-            <div style={{ backgroundColor: isOver ? 'lightblue' : 'transparent' }}>
+            <div style={{ backgroundColor: isOver ? 'lightblue' : 'transparent' }} className="bg-red-300">
                 {droppedItems.map((itemId, index) => {
                     const wordObj = INITIAL_DATA.words.find(word => word.id == itemId.toString());
                     if (wordObj) {
@@ -138,11 +143,15 @@ const DivContainer: React.FC<DivContainerProps> = ({ words, onDrop }) => {
 
 
 
-
+type GroupedArrayItem = {
+    idWord: string;
+    indContainer: number;
+    text: string;
+};
 
 const DrangManyWordsPage = () => {
     // Estado para almacenar los elementos soltados junto con su contenedor
-    const [droppedItems, setDroppedItems] = useState<{ idWord: string; indContainer: number , idText: number }[]>([]);
+    const [droppedItems, setDroppedItems] = useState<{ idWord: string; indContainer: number, text: string }[]>([]);
 
     //ESTADO PARA MANEJAR EL BOTON DE NEXT HABILITADO / DESABILITADO
     const [nextDisabled, setNextDisabled] = useState(true);
@@ -158,21 +167,24 @@ const DrangManyWordsPage = () => {
 
     const handleSave = () => {
         setNextDisabled(false);
-        
+        setRequestPOST({
+            questionId: INITIAL_DATA.questionId,
+            response: droppedItems
+        });
     };
-    
-    const handleDrop = (wordId: string, containerId: number , idText : number) => {
+
+    const handleDrop = (wordId: string, containerId: number, text: string) => {
         // Actualiza el estado para agregar el elemento soltado junto con su contenedor
 
-       
+
 
         // Aquí puedes realizar otras operaciones con el contador si lo necesitas
 
         // Incrementar el contador
-        
+
         setDroppedItems(prevState => [
             ...prevState,
-            { idWord: wordId, indContainer: containerId , idText : idText}
+            { idWord: wordId, indContainer: containerId, text: text }
         ]);
 
 
@@ -185,38 +197,50 @@ const DrangManyWordsPage = () => {
         return INITIAL_DATA.words.filter((img) => !droppedDivs.includes(img.id));
     };
 
+    const groupedArrays: Record<number, ResponseObject[]> = {};
     const handleNext = () => {
-
-       const groupedByidText = requestPOST.response.reduce((acc: Record<string, any[]>, curr: any) => {
-            // Verificamos si ya existe una entrada con el idText actual
-            if (acc[curr.idText]) {
-                // Si existe, agregamos el objeto actual al array correspondiente
-                acc[curr.idText].push(curr);
-            } else {
-                // Si no existe, creamos un nuevo array con el objeto actual
-                acc[curr.idText] = [curr];
+        requestPOST.response.forEach(obj => {
+            const { indContainer, idWord } = obj;
+            if (!groupedArrays[indContainer]) {
+                groupedArrays[indContainer] = [];
             }
-            return acc;
-        }, {});
-
-        setRequestPOST({
-            questionId: INITIAL_DATA.questionId,
-            response: groupedByidText,
+            // Buscar el valor correspondiente de word en INITIAL_DATA.words
+            const wordObj = INITIAL_DATA.words.find(word => word.id === idWord);
+            if (wordObj) {
+                // Reemplazar idWord con el valor de word
+                obj.idWord = wordObj.word;
+            }
+            groupedArrays[indContainer].push(obj);
         });
 
-        console.log("LOS GRUPOS 3 SON " , groupedByidText)
-        toast.success(" Muy Bien .A por el siguiente")
+        // Convertir el objeto en un array de arrays
+        const resultArrays = Object.values(groupedArrays);
+
+        console.log('Arrays agrupados por indContainer con palabras:', resultArrays);
+        console.log("El  REQUESPOST ES  ", requestPOST);
+
+        const idWordsOnly: string[][] = Object.values(groupedArrays).map(arr =>
+            arr.map(({ idWord }) => idWord)
+        );
+        console.log("ES ", idWordsOnly);
+
+
+
+        function replaceUnderscores(text: string, idWords: string[]): string {
+            let index = 0;
+            return text.replace(/_/g, () => idWords[index++]);
+          }
+          
+          // Generar las nuevas cadenas de texto
+          const newTexts: string[] = INITIAL_DATA.array2.map(({ text }, index) => {
+            const idWords = idWordsOnly[index];
+            return replaceUnderscores(text, idWords);
+          });
+          
+          console.log( "LAS CADENAS SON " , newTexts);
     }
 
 
-    console.log("El requestPOST ES ", requestPOST);
-   
-
-
-   
-
-    // Función para manejar el evento onDrop
-  
 
     return (
         <ActivityLayout
@@ -247,17 +271,18 @@ const DrangManyWordsPage = () => {
 
                 <div className="border border-gray-800 rounded-xl p-4">
                     {INITIAL_DATA.array2.map((item, containerIndex) => (
-                        <div key={containerIndex}>
+                        <div key={containerIndex} className="">
                             {item.text.split('_').map((text, textIndex) => (
                                 <React.Fragment key={textIndex}>
-                                    <div style={{ display: 'inline-block', marginTop: "18px" }} className="text-2xl">
+                                    <div style={{ display: 'inline-block', marginTop: "18px" }} className="text-2xl  ">
                                         {text}
                                     </div>
                                     {textIndex !== item.text.split('_').length - 1 && (
-                                        <div style={{ display: 'inline-block', verticalAlign: 'top' }}>
+                                        <div style={{ display: 'inline-block', verticalAlign: 'top' }} className="">
                                             <DivContainer
-                                                words={droppedItems.filter(item => item.indContainer === textIndex ).map(item => item.idWord)}
-                                                onDrop={(wordId) => handleDrop(wordId, textIndex  , item.id)}
+
+                                                words={droppedItems.filter(item => item.indContainer === textIndex).map(item => item.idWord)}
+                                                onDrop={(wordId) => handleDrop(wordId, item.id, item.text)}
                                             />
                                         </div>
                                     )}
