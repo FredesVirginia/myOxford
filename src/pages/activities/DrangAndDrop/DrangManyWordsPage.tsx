@@ -24,6 +24,16 @@ type DivContainerProps = {
 
 };
 
+interface Answer {
+    response_id: number;
+    sentence: string;
+  }
+  
+  interface QuestionData {
+    question_id: string;
+    answers: Answer[];
+  }
+
 
 
 
@@ -165,12 +175,21 @@ const DrangManyWordsPage = () => {
     });
 
 
+    const [questionData, setQuestionData] = useState<QuestionData>({
+        question_id: "",
+        answers: []
+      });
+
+
     const handleSave = () => {
         setNextDisabled(false);
         setRequestPOST({
             questionId: INITIAL_DATA.questionId,
             response: droppedItems
         });
+
+
+       
     };
 
     const handleDrop = (wordId: string, containerId: number, text: string) => {
@@ -198,6 +217,7 @@ const DrangManyWordsPage = () => {
     };
 
     const groupedArrays: Record<number, ResponseObject[]> = {};
+
     const handleNext = () => {
         requestPOST.response.forEach(obj => {
             const { indContainer, idWord } = obj;
@@ -238,7 +258,32 @@ const DrangManyWordsPage = () => {
           });
           
           console.log( "LAS CADENAS SON " , newTexts);
+
+
+          const assignResponseIds = (texts: string[]): Answer[] => {
+            const newAnswers: Answer[] = [];
+          
+            texts.forEach((text, index) => {
+              const sentence = text.trim(); // Eliminar espacios en blanco al principio y al final
+              const response_id = index + 1; // Obtener el próximo response_id disponible
+              newAnswers.push({ response_id, sentence });
+            });
+          
+            return newAnswers;
+          };
+          
+          // Asignar response_id a las nuevas respuestas
+          const newAnswers: Answer[] = assignResponseIds(newTexts);
+          
+          // Actualizar el estado questionData con las nuevas respuestas
+          setQuestionData({
+            question_id: "f71e2299-b9c8-4235-ab7e-e73ee85c0e7a",
+            answers: newAnswers
+          });
     }
+
+
+    console.log("loque SE ENVIE ES " , questionData)
 
 
 
