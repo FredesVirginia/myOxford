@@ -12,7 +12,7 @@ const MapasNiveles = () => {
         setRotation(prevRotation => prevRotation - 45);
     };
     return (
-        <div className="bg-red-300 h-[790px] overflow-hidden flex justify-center">
+        <div className="bg-red-300 h-[825px] overflow-hidden flex justify-center">
 
 
            
@@ -21,7 +21,7 @@ const MapasNiveles = () => {
 
             <div className="container bg-red-900">
                 <div className="image-container" style={{ transform: `rotate(${rotation}deg)` }}>
-                    <img src="../../../img/home.png " alt="Imagen" />
+                    <img src="../../../img/Capa 1.png " alt="Imagen" className="w-[1000px]" />
                 </div>
                 <div className="buttons  flex justify-center">
                     <button onClick={rotateLeft}>Izquierda</button>
