@@ -139,6 +139,17 @@ export const HomePage = () => {
             <ListItemText primary="Speaking Img" />
           </ListItemButton>
         </CollapseList>
+
+           { /**MAPA DE NIVELES */}
+        <CollapseList open={openSpeaking} setOpen={setOpenSpeaking} title="Mapa de niveles ">
+          <ListItemButton onClick={() => navigation("/levels/activities/speaking/mapas")}>
+            <ListItemText primary="Mapa de NIVELES" />
+          </ListItemButton>
+
+          <ListItemButton onClick={() => navigation("/levels/activities/speaking/img")}>
+            <ListItemText primary="Speaking Img" />
+          </ListItemButton>
+        </CollapseList>
       </div>
     </div>
   );

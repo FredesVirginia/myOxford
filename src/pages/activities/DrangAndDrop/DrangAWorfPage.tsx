@@ -18,9 +18,7 @@ type DivContainerProps = {
 };
 
 
-type DroppedItems = {
-    [key: number]: string;
-};
+
 
 const ItemTypes = 'div';
 

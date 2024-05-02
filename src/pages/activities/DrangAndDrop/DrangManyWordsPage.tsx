@@ -1,43 +1,31 @@
 import { RefObject, useEffect, useRef, useState } from "react";
 import { ActivityLayout } from "../../../components/layouts/ActivityLayout";
-
+import { DraggableDiv } from "../../../helpers/DrangAndDrop/DrangManyWords/DraggableDiv";
+import { DivContainer } from "../../../helpers/DrangAndDrop/DrangManyWords/DivContainer";
 import { DndProvider, useDrag, useDrop } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { toast } from "react-hot-toast";
 import { getColor } from "../../../helpers/getColor";
 import React from "react";
 
-type Word = {
-    id: string;
-    word: string;
-};
+
+
+
+interface Answer {
+    response_id: number;
+    sentence: string;
+}
+
+interface QuestionData {
+    question_id: string;
+    answers: Answer[];
+}
 
 interface ResponseObject {
     idWord: string;
     indContainer: number;
     text?: string;
 }
-
-type DivContainerProps = {
-    words: string[];
-    onDrop: (word: string) => void;
-
-};
-
-interface Answer {
-    response_id: number;
-    sentence: string;
-  }
-  
-  interface QuestionData {
-    question_id: string;
-    answers: Answer[];
-  }
-
-
-
-
-const ItemTypes = 'div';
 
 const INITIAL_DATA = {
     questionId: "913",
@@ -65,94 +53,6 @@ const INITIAL_DATA = {
     ] as Word[]
 };
 
-const DraggableDiv: React.FC<{ word: string; id: string }> = ({ word, id }) => {
-    const [{ isDragging }, drag] = useDrag({
-        type: ItemTypes,
-        item: { id, word },
-        collect: (monitor) => ({
-            isDragging: !!monitor.isDragging(),
-        }),
-    });
-
-    return (
-        <div
-            ref={drag}
-            style={{
-                boxShadow: '0 0 8px 0 rgba(0, 0, 0, 0.8)',
-
-
-                opacity: isDragging ? 0.5 : 1,
-                cursor: 'move',
-                margin: '5px',
-                display: 'inline-block',
-
-            }}
-            className="rounded-xl font-bold  text-xl py-1 px-2"
-        >
-            {word}
-        </div>
-    );
-};
-
-const DivContainer: React.FC<DivContainerProps> = ({ words, onDrop }) => {
-
-    const [droppedItems, setDroppedItems] = useState<number[]>([]);
-    const [hasDropped, setHasDropped] = useState<boolean>(false);
-
-    const [{ isOver }, drop] = useDrop({
-        accept: ItemTypes,
-        drop: (item: { id: string; word: string }, monitor) => {
-            if (!hasDropped) {
-                onDrop(item.id);
-                //ESTATO PARA ALMACENAR CUANTOS DIVDRANGLE SE VA A RENDERIZAR DENTRO DE CADA DIVCONTAINER
-                setDroppedItems((prevItems) => [...prevItems, parseInt(item.id)]);
-                //ESTADO PARA VERIFICAR QUE SOLO SE SUELTE UN SOLO ELEMENTOS EN CADA DIVCONTAINER
-                setHasDropped(true);
-            }
-        },
-        collect: (monitor) => ({
-            isOver: !!monitor.isOver(),
-        }),
-    });
-
-    const containerBorderStyle = droppedItems.length === 0 ? '2px solid gray  ' : 'none';
-    return (
-        <div
-            ref={drop}
-            style={{
-                width: droppedItems.length === 0 ? "150px" : "auto",
-                height: droppedItems.length === 0 ? "50px" : "auto",
-                border: containerBorderStyle,
-
-                position: 'relative',
-                margin: '10px',
-                backgroundColor: isOver ? 'lightblue' : 'transparent',
-
-            }}
-            className="rounded-xl "
-        >
-
-
-            <div style={{ backgroundColor: isOver ? 'lightblue' : 'transparent' }} className="bg-red-300">
-                {droppedItems.map((itemId, index) => {
-                    const wordObj = INITIAL_DATA.words.find(word => word.id == itemId.toString());
-                    if (wordObj) {
-                        return (
-                            <div className="flex justify-center items-center" key={index}>
-                                <DraggableDiv key={index} word={wordObj.word} id={itemId.toString()} />
-                            </div>
-                        );
-                    } else {
-                        return null; // O puedes manejar este caso de alguna otra manera
-                    }
-                })}
-            </div>
-        </div>
-    );
-};
-
-
-
 type GroupedArrayItem = {
     idWord: string;
     indContainer: number;
@@ -178,7 +78,7 @@ const DrangManyWordsPage = () => {
     const [questionData, setQuestionData] = useState<QuestionData>({
         question_id: "",
         answers: []
-      });
+    });
 
 
     const handleSave = () => {
@@ -189,7 +89,7 @@ const DrangManyWordsPage = () => {
         });
 
 
-       
+
     };
 
     const handleDrop = (wordId: string, containerId: number, text: string) => {
@@ -249,41 +149,41 @@ const DrangManyWordsPage = () => {
         function replaceUnderscores(text: string, idWords: string[]): string {
             let index = 0;
             return text.replace(/_/g, () => idWords[index++]);
-          }
-          
-          // Generar las nuevas cadenas de texto
-          const newTexts: string[] = INITIAL_DATA.array2.map(({ text }, index) => {
+        }
+
+        // Generar las nuevas cadenas de texto
+        const newTexts: string[] = INITIAL_DATA.array2.map(({ text }, index) => {
             const idWords = idWordsOnly[index];
             return replaceUnderscores(text, idWords);
-          });
-          
-          console.log( "LAS CADENAS SON " , newTexts);
+        });
+
+        console.log("LAS CADENAS SON ", newTexts);
 
 
-          const assignResponseIds = (texts: string[]): Answer[] => {
+        const assignResponseIds = (texts: string[]): Answer[] => {
             const newAnswers: Answer[] = [];
-          
+
             texts.forEach((text, index) => {
-              const sentence = text.trim(); // Eliminar espacios en blanco al principio y al final
-              const response_id = index + 1; // Obtener el próximo response_id disponible
-              newAnswers.push({ response_id, sentence });
+                const sentence = text.trim(); // Eliminar espacios en blanco al principio y al final
+                const response_id = index + 1; // Obtener el próximo response_id disponible
+                newAnswers.push({ response_id, sentence });
             });
-          
+
             return newAnswers;
-          };
-          
-          // Asignar response_id a las nuevas respuestas
-          const newAnswers: Answer[] = assignResponseIds(newTexts);
-          
-          // Actualizar el estado questionData con las nuevas respuestas
-          setQuestionData({
+        };
+
+        // Asignar response_id a las nuevas respuestas
+        const newAnswers: Answer[] = assignResponseIds(newTexts);
+
+        // Actualizar el estado questionData con las nuevas respuestas
+        setQuestionData({
             question_id: "f71e2299-b9c8-4235-ab7e-e73ee85c0e7a",
             answers: newAnswers
-          });
+        });
     }
 
 
-    console.log("loque SE ENVIE ES " , questionData)
+    console.log("loque SE ENVIE ES ", questionData)
 
 
 
