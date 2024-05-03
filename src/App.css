@@ -6,9 +6,12 @@
     
   }
   
+  .margin{
+    margin-left: 500px;
+  }
   .image-container {
     position: absolute;
-    bottom:-1230px;
+    bottom:-1400px;
  
     padding: 6px 6px;
 
@@ -19,18 +22,37 @@
 
   .image-container2 {
     position: absolute;
-    bottom:-920px;
+    bottom:-710px;
  
 
     
    
   }
+ 
 
+
+  @keyframes swing {
+    0% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(100px);
+    }
+    100% {
+      transform: translateY(0);
+    }
+
+}
+
+/* Aplica la animación */
+.swing-animation {
+    animation: swing 2s ease-in-out infinite;
+}
 
 
   .image-container3 {
     position: absolute;
-    bottom:-740px;
+    bottom:-540px;
  
 
     
