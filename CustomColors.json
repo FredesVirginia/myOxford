@@ -43,5 +43,6 @@
   "my-semantic-success-700": "#136133" , 
   "my-speaking-primary" : "#000000" , 
   "my-speaking-300" : "#FEC64C" ,
-  "my-speaking" : "#98772E"
+  "my-speaking" : "#98772E" , 
+  "my-yellow-maps" : "#FEC64C"
 }
